@@ -200,19 +200,29 @@ char *find_path(char **env)
 	return NULL;
 }
 
+void	ft_error(int error)
+{
+	static	char *message[8] = {"     :wrong arguments (0)",
+	"     :can't open the file (1)", "     :failed to create window (2)",
+	"     :invalid map (3)", "     :invalid resolution (4)",
+	"     :invalid color (5)", "     :invalid texture (6)",
+	"     :memory allocation error (7)"};
+
+	write(2, "Error\n", 6);
+	write(2, message[error], ft_strlen(message[error]));
+	write(2, "\n", 1);
+	exit(0);
+}
+
+
 int main(int argc, char **argv, char **env)
 {
 	if (argc != 5)
-	{
-		write(2, "Error! Wrong arguments\n", 23);
-		return (-1);
-	}
+		ft_error(0);
 	int fd_in;
 	int fd_out;
 	int fd_buffer;
 	pid_t	pid;
-	int status;
-	// pid_t	pid2;
 	char **path;
 	char *fullpath = find_path(env);
 	char *fullest_path = malloc(ft_strlen(fullpath) + 1 - 5);
@@ -239,9 +249,6 @@ int main(int argc, char **argv, char **env)
 	if (pid < 0) return -1;
 	else if (pid == 0)
 	{
-		// execve(path[0], path, env);
-		// exit(0);
-
 		i = 0;
 		while (paths[i] != NULL)
 		{
@@ -252,7 +259,7 @@ int main(int argc, char **argv, char **env)
 			i++;
 		}
 	}
-	else if (pid > 0) waitpid(pid, &status, 0);
+
 	path = ft_split(argv[3], ' ');
 	close(fd_buffer);
 	fd_buffer = open(".buffer", O_RDWR, 0644);
@@ -262,9 +269,6 @@ int main(int argc, char **argv, char **env)
 	if (pid < 0) return -1;
 	else if (pid == 0)
 	{
-		// execve(path[0], path, env);
-		// exit(0);
-
 		i = 0;
 		while (paths[i] != NULL)
 		{
