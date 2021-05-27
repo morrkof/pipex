@@ -1,8 +1,0 @@
-total 48
--rw-rw-r-- 1 anastasia anastasia     3 мая 27 01:51 infile
--rw-rw-r-- 1 anastasia anastasia  1175 мая 27 01:47 Makefile
--rw-rw-r-- 1 anastasia anastasia     2 мая 27 02:48 out
--rw-r--r-- 1 anastasia anastasia     0 мая 27 11:35 outfile
--rwxrwxr-x 1 anastasia anastasia 17520 мая 27 11:35 pipex
--rw-rw-r-- 1 anastasia anastasia  4448 мая 27 11:35 pipex.c
--rw-rw-r-- 1 anastasia anastasia  6960 мая 27 11:35 pipex.o
