@@ -6,13 +6,13 @@
 #    By: ppipes <ppipes@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 16:22:35 by ppipes            #+#    #+#              #
-#    Updated: 2021/05/28 00:35:37 by ppipes           ###   ########.fr        #
+#    Updated: 2021/05/28 02:49:26 by ppipes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRC = pipex.c pipex_utils.c
+SRC = pipex.c pipex_utils.c pipex_utils2.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
