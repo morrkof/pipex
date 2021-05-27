@@ -41,6 +41,59 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (s3);
 }
 
+static char	*ft_strjoin2(char *s1, char *s2)
+{
+	char	*result;
+	int		i;
+	int		j;
+
+	if (!(result = malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		result[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		result[i] = s2[j];
+		i++;
+		j++;
+	}
+	result[i] = '\0';
+	free(s1);
+	s1 = NULL;
+	return (result);
+}
+
+int			get_next_line(int fd, char **line)
+{
+	char	*buf;
+	int		result;
+
+	result = 1;
+	if (!line)
+		return (-1);
+	if ((buf = malloc(2)) == NULL)
+		return (-1);
+	if ((*line = malloc(1)) == NULL)
+		return (-1);
+	**line = '\0';
+	*buf = '\0';
+	while (*buf != '\n' && result)
+	{
+		result = read(fd, buf, 1);
+		buf[1] = '\0';
+		if (*buf != '\n' && result)
+			*line = ft_strjoin2(*line, buf);
+	}
+	free(buf);
+	return (result);
+}
+
+
 static size_t	ft_words(char const *s, char c)
 {
 	size_t	i;
@@ -161,18 +214,18 @@ int main(int argc, char **argv, char **env)
 	int status;
 	// pid_t	pid2;
 	char **path;
-	// char *fullpath = find_path(env);
-	// char *fullest_path = malloc(ft_strlen(fullpath) + 1 - 5);
-	// int i = 0;
-	// int j = 5;
-	// while (fullpath[j])
-	// {
-	// 	fullest_path[i] = fullpath[j];
-	// 	i++;
-	// 	j++;
-	// }
-	// fullest_path[i] = '\0';
-	// char **paths = ft_split(fullest_path, ':');
+	char *fullpath = find_path(env);
+	char *fullest_path = malloc(ft_strlen(fullpath) + 1 - 5);
+	int i = 0;
+	int j = 5;
+	while (fullpath[j])
+	{
+		fullest_path[i] = fullpath[j];
+		i++;
+		j++;
+	}
+	fullest_path[i] = '\0';
+	char **paths = ft_split(fullest_path, ':');
 
 	fd_in = open(argv[1], O_RDONLY);
 	fd_out = open(argv[4], O_CREAT | O_TRUNC | O_RDWR, 0644);
@@ -186,39 +239,41 @@ int main(int argc, char **argv, char **env)
 	if (pid < 0) return -1;
 	else if (pid == 0)
 	{
-		execve(path[0], path, env);
-		exit(0);
+		// execve(path[0], path, env);
+		// exit(0);
 
-		// i = 0;
-		// while (paths[i] != NULL)
-		// {
-		// 	if (!execve(ft_strjoin(ft_strjoin(paths[i], "/"), path[0]), path, env))
-		// 	{
-		// 		exit(0);
-		// 	}
-		// 	i++;
-		// }
+		i = 0;
+		while (paths[i] != NULL)
+		{
+			if (!execve(ft_strjoin(ft_strjoin(paths[i], "/"), path[0]), path, env))
+			{
+				exit(0);
+			}
+			i++;
+		}
 	}
 	else if (pid > 0) waitpid(pid, &status, 0);
 	path = ft_split(argv[3], ' ');
+	close(fd_buffer);
+	fd_buffer = open(".buffer", O_RDWR, 0644);
 	pid = fork();
 	dup2(fd_buffer, 0);
 	dup2(fd_out, 1);
 	if (pid < 0) return -1;
 	else if (pid == 0)
 	{
-		execve(path[0], path, env);
-		exit(0);
+		// execve(path[0], path, env);
+		// exit(0);
 
-		// i = 0;
-		// while (paths[i] != NULL)
-		// {
-		// 	if (!execve(ft_strjoin(ft_strjoin(paths[i], "/"), path[0]), path, env))
-		// 	{
-		// 		exit(0);
-		// 	}
-		// 	i++;
-		// }
+		i = 0;
+		while (paths[i] != NULL)
+		{
+			if (!execve(ft_strjoin(ft_strjoin(paths[i], "/"), path[0]), path, env))
+			{
+				exit(0);
+			}
+			i++;
+		}
 	}
 
 }
