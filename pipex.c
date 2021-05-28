@@ -76,6 +76,6 @@ int	main(int argc, char **argv, char **env)
 	execute_command(set, argv[2], fd_in, pipefd[1]);
 	execute_command(set, argv[3], pipefd[0], fd_out);
 	ft_free(set.splitted);
-	close(fd_in);
-	close(fd_out);
+	close(0);
+	close(1);
 }
